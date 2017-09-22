@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.agsw.FabricView.DrawableObjects.CPath;
 import com.agsw.FabricView.DrawableObjects.CText;
 import com.agsw.FabricView.DrawableObjects.CTransform;
 import com.agsw.FabricView.DrawableObjects.CTranslation;
+import com.agsw.inputview.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +203,8 @@ public class FabricView extends View {
     public int mAutoscrollDistance = 100; // TODO Support Autoscroll
     private Rect cropBounds = null;
 
+    Bitmap bm;
+
     /**
      *  Constructor, sets defaut values.
      *
@@ -209,6 +213,9 @@ public class FabricView extends View {
      */
     public FabricView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        bm = BitmapFactory.decodeResource(getContext().getResources(),
+                R.drawable.img1);
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setBackgroundColor(mBackgroundColor);
@@ -234,6 +241,10 @@ public class FabricView extends View {
         // check if background needs to be redrawn
         drawBackground(canvas, mBackgroundMode);
         Rect totalBounds = new Rect(canvas.getWidth(), canvas.getHeight(), 0, 0);
+
+
+
+        canvas.drawBitmap( bm , 0 , 0 , null);
 
         // go through each item in the list and draw it
         for (int i = 0; i < mDrawableList.size(); i++) {
@@ -493,6 +504,8 @@ public class FabricView extends View {
                     break;
                 case BACKGROUND_STYLE_NOTEBOOK_PAPER:
                     drawNotebookPaperBackground(canvas, linePaint);
+                case 3:
+                    drawImageBackground(canvas ,linePaint);
                 default:
                     break;
             }
@@ -552,6 +565,28 @@ public class FabricView extends View {
         // draw side line
         canvas.drawLine(NOTEBOOK_LEFT_LINE_PADDING, 0,
                 NOTEBOOK_LEFT_LINE_PADDING, canvas.getHeight(), paint);
+
+
+    }
+
+    private void drawImageBackground(Canvas canvas, Paint paint) {
+        int i = 0;
+        Log.d("KTH","drawImageBackground -> " + canvas.getWidth() + "," + canvas.getHeight());
+//        boolean doneV = false;
+//        // draw horizental lines
+//        while (!(doneV)) {
+//            if (i < canvas.getHeight())
+//                canvas.drawLine(0, i, canvas.getWidth(), i, paint);
+//            else
+//                doneV = true;
+//            i += 75;
+//        }
+//        // change line color
+//        paint.setColor(NOTEBOOK_LEFT_LINE_COLOR);
+//        // draw side line
+//        canvas.drawLine(NOTEBOOK_LEFT_LINE_PADDING, 0,
+//                NOTEBOOK_LEFT_LINE_PADDING, canvas.getHeight(), paint);
+
 
 
     }
